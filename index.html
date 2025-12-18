@@ -3,24 +3,436 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LittleCare</title>
+    <title>LittleCare | Curaj mare pentru oameni mici</title>
     <link rel="shortcut icon" href="littlecarelogo.png" type="image/x-icon" />
     <style>
       @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;800&display=swap');
-
+      :root {
+        --bg: #0c1221;
+        --card: #121a2d;
+        --muted: #96a3c2;
+        --text: #e8ecf5;
+        --accent: #6be8d8;
+        --accent-2: #8da9ff;
+      }
       * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
         color-scheme: dark;
-        user-select: none;
         font-family: 'JetBrains Mono', monospace;
-        --color-1: #6989ff;
-        --color-2: #00d7ab;
+      }
+      body {
+        background: radial-gradient(circle at 10% 20%, #13213d, #0c1221 40%),
+          radial-gradient(circle at 80% 0%, #183059, #0c1221 45%),
+          var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+        min-height: 100vh;
+      }
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        backdrop-filter: blur(12px);
+        background: rgba(12, 18, 33, 0.8);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+      .nav {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 16px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        color: var(--text);
+      }
+      .brand img {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 6px;
+        background: rgba(255, 255, 255, 0.03);
+      }
+      .brand strong {
+        font-size: 18px;
+        letter-spacing: 0.6px;
+      }
+      nav ul {
+        list-style: none;
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+      nav a {
+        text-decoration: none;
+        color: var(--muted);
+        font-size: 14px;
+        transition: color 0.2s ease, transform 0.2s ease;
+      }
+      nav a:hover {
+        color: var(--accent);
+        transform: translateY(-2px);
+      }
+      .hero {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 64px 20px 32px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 32px;
+        align-items: center;
+      }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        border-radius: 999px;
+        background: rgba(107, 232, 216, 0.12);
+        border: 1px solid rgba(107, 232, 216, 0.4);
+        color: var(--accent);
+        font-size: 12px;
+        letter-spacing: 0.6px;
+        text-transform: uppercase;
+      }
+      h1 {
+        font-size: clamp(32px, 5vw, 48px);
+        line-height: 1.1;
+        margin: 12px 0;
+      }
+      .lead {
+        color: var(--muted);
+        font-size: 16px;
+        max-width: 620px;
+      }
+      .cta {
+        margin-top: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+      .button {
+        padding: 12px 18px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        color: var(--text);
+        text-decoration: none;
+        font-weight: 700;
+        background: linear-gradient(135deg, #6be8d8, #8da9ff);
+        color: #0c1221;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+      }
+      .button.secondary {
+        background: rgba(255, 255, 255, 0.06);
+        color: var(--text);
+      }
+      .grid {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 32px 20px 64px;
+        display: grid;
+        gap: 16px;
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 20px;
+        padding: 20px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+      }
+      .card h3 {
+        margin-bottom: 8px;
+        font-size: 18px;
+      }
+      .muted {
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .two-cols {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 16px;
+      }
+      .list {
+        display: grid;
+        gap: 10px;
+        margin-top: 10px;
+      }
+      .list li {
+        list-style: none;
+        display: grid;
+        grid-template-columns: 24px 1fr;
+        gap: 12px;
+        align-items: start;
+        color: var(--muted);
+      }
+      .tagline {
+        color: var(--accent);
+        font-weight: 700;
+        letter-spacing: 1px;
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 12px;
+        margin-top: 16px;
+      }
+      .stat {
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 16px;
+        padding: 12px 14px;
+        background: rgba(255, 255, 255, 0.03);
+      }
+      .stat strong {
+        display: block;
+        font-size: 22px;
+        margin-bottom: 4px;
+        color: var(--accent-2);
+      }
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 10px;
+      }
+      .chip {
+        padding: 8px 12px;
+        border-radius: 999px;
+        background: rgba(141, 169, 255, 0.12);
+        color: var(--text);
+        border: 1px solid rgba(141, 169, 255, 0.4);
+        font-size: 13px;
+      }
+      section {
+        scroll-margin-top: 88px;
+      }
+      footer {
+        max-width: 1180px;
+        margin: 0 auto 48px;
+        padding: 0 20px;
+        text-align: center;
+        color: var(--muted);
+      }
+      @media (max-width: 640px) {
+        .nav {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        nav ul {
+          width: 100%;
+          justify-content: space-between;
+        }
       }
     </style>
   </head>
   <body>
-    Test
+    <header>
+      <div class="nav">
+        <a class="brand" href="#acasa">
+          <img src="littlecarelogo.png" alt="Sigla LittleCare" />
+          <div>
+            <strong>LittleCare</strong>
+            <div class="muted">Curaj mare pentru oameni mici</div>
+          </div>
+        </a>
+        <nav aria-label="Navigație principală">
+          <ul>
+            <li><a href="#poveste">Poveste</a></li>
+            <li><a href="#spatiu">Spațiu</a></li>
+            <li><a href="#specialitati">Specialități</a></li>
+            <li><a href="#experienta">Experiență</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section id="acasa" class="hero">
+        <div>
+          <span class="pill">Clinică pediatrică | București</span>
+          <h1>LittleCare — un loc creat din empatie, cu idei mari inspirate de cei mici.</h1>
+          <p class="lead">
+            Am ascultat copiii și am construit o clinică în care vocea lor contează.
+            Fără frică, fără miros de spital, cu onestitate radicală și un spațiu
+            care îi invită să fie curioși, nu anxioși.
+          </p>
+          <div class="cta">
+            <a class="button" href="#specialitati">Descoperă specialitățile</a>
+            <a class="button secondary" href="#poveste">Citește povestea</a>
+          </div>
+          <div class="stats">
+            <div class="stat">
+              <strong>12 ani</strong>
+              <span class="muted">de pe 1 iunie, Ziua Copilului</span>
+            </div>
+            <div class="stat">
+              <strong>100% vocea copilului</strong>
+              <span class="muted">ghidul nostru în fiecare consult</span>
+            </div>
+            <div class="stat">
+              <strong>Împreună</strong>
+              <span class="muted">medici, psihologi, arhitecți și părinți</span>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="tagline">Onestitate radicală</div>
+          <h3>„O să simți o ciupitură scurtă, ca un elastic de păr.”</h3>
+          <p class="muted">
+            Copilul primește control: alege unde stă, cine numără până la trei,
+            ce vrea să știe. Eliminăm surprizele și construim încredere.
+          </p>
+          <div class="chips" aria-label="Principii cheie">
+            <span class="chip">Limbaj senzorial</span>
+            <span class="chip">Fără miros de spital</span>
+            <span class="chip">Ferestre la nivelul privirii</span>
+            <span class="chip">Spații de tip „living”</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="poveste" class="grid">
+        <div class="two-cols">
+          <div class="card">
+            <div class="pill">Poveste</div>
+            <h3>Curaj mare pentru oameni mici</h3>
+            <p class="muted">
+              Am pornit de la fricile copilăriei: luminile reci, ecoul,
+              mirosul de dezinfectant. Am întrebat copiii cum ar arăta vizita
+              perfectă la medic și am construit clinica LittleCare, pe 1 iunie,
+              ca loc prietenos unde încrederea se câștigă prin timp, răbdare și
+              sinceritate.
+            </p>
+            <ul class="list" aria-label="Repere cheie">
+              <li><span>•</span><span>Clădire veche transformată într-un „living” cu grădină, jocuri și cafea pentru părinți.</span></li>
+              <li><span>•</span><span>Medici tineri, alături de psihologi și arhitecți, dispuși să lase deoparte „halatul alb”.</span></li>
+              <li><span>•</span><span>Investiția principală: timp dedicat copilului, nu mobilier de lux.</span></li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="pill">Promisiuni</div>
+            <h3>Fără frică. Fără senzația de neputință.</h3>
+            <ul class="list" aria-label="Promisiuni pentru copii și părinți">
+              <li><span>•</span><span>Ferestre și ghișee coborâte la 80-90 cm pentru a vedea și înțelege ce se întâmplă.</span></li>
+              <li><span>•</span><span>Canapele în loc de mese reci, medicul stă la același nivel cu copilul.</span></li>
+              <li><span>•</span><span>Panouri acustice și vopsea mată, culori calde, lumină blândă.</span></li>
+              <li><span>•</span><span>Sisteme de ventilație cu arome discrete de vanilie sau citrice.</span></li>
+              <li><span>•</span><span>Instrucțiuni clare: „Vrei să numeri tu sau număr eu?” – copilul are control.</span></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="spatiu" class="grid">
+        <div class="card">
+          <div class="pill">Spațiu gândit de copii</div>
+          <h3>Un mediu care îmblânzește vizita la medic</h3>
+          <div class="two-cols">
+            <div>
+              <p class="muted">
+                Living cald, fără ecou, fără mirosuri agresive. Copiii văd tot,
+                întreabă, ating, explorează. Părinții au loc să respire, medicii
+                au timp să asculte.
+              </p>
+              <div class="chips">
+                <span class="chip">Lumini blânde</span>
+                <span class="chip">Panouri acustice</span>
+                <span class="chip">Arome discrete</span>
+                <span class="chip">Ferestre la nivelul privirii</span>
+              </div>
+            </div>
+            <ul class="list" aria-label="Detalii de design">
+              <li><span>•</span><span>Canapele pentru consult, nu mese de examinare.</span></li>
+              <li><span>•</span><span>Cabinete care nu arată a cabinete: culori calde, materiale mate.</span></li>
+              <li><span>•</span><span>Fiecare copil știe dinainte ce urmează să simtă.</span></li>
+              <li><span>•</span><span>Zone de joacă și construcție care transformă așteptarea în explorare.</span></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="specialitati" class="grid">
+        <div class="card">
+          <div class="pill">Specialități</div>
+          <h3>Îngrijire multidisciplinară pentru fiecare nevoie pediatrică</h3>
+          <p class="muted">
+            Echipele LittleCare lucrează împreună pentru a oferi trasee clare și
+            sigure pentru copii. Fără liste de prețuri aici — doar transparență,
+            empatie și competență.
+          </p>
+          <div class="chips" aria-label="Lista specialităților">
+            <span class="chip">Oncologie</span>
+            <span class="chip">NeuroORL</span>
+            <span class="chip">Psihiatrie pediatrică</span>
+            <span class="chip">OftalmoGastro</span>
+            <span class="chip">Pneumologie</span>
+            <span class="chip">Cardiologie</span>
+            <span class="chip">Ortopedie</span>
+            <span class="chip">Alergologie</span>
+            <span class="chip">Endocrinologie</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="experienta" class="grid">
+        <div class="two-cols">
+          <div class="card">
+            <div class="pill">Experiență</div>
+            <h3>Parcursul vizitei, explicat pentru copii</h3>
+            <ul class="list" aria-label="Pașii experienței">
+              <li><span>1</span><span>Salut pe nivelul privirii și prezentarea spațiului. Copilul decide unde vrea să stea.</span></li>
+              <li><span>2</span><span>Explicăm ce simte: „o ciupitură scurtă”, „o lumină caldă”, „o briză de aer”.</span></li>
+              <li><span>3</span><span>Consult pe canapea, cu părinții aproape, fără graba minutelor.</span></li>
+              <li><span>4</span><span>Întrebăm: „Ce te-ar face să te simți mai confortabil data viitoare?”</span></li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="pill">Vocea copiilor</div>
+            <h3>Înțelegem, nu minimizăm</h3>
+            <p class="muted">
+              Rareori întrebăm copiii cum văd ei o vizită ideală. Noi am făcut-o
+              și continuăm să o facem. Onestitatea radicală începe cu ascultarea
+              radicală.
+            </p>
+            <div class="chips">
+              <span class="chip">„Pot să aleg eu unde stau?”</span>
+              <span class="chip">„Numărăm împreună!”</span>
+              <span class="chip">„Spune-mi exact ce urmează.”</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" class="grid">
+        <div class="card">
+          <div class="pill">Contact</div>
+          <h3>Suntem aici pentru curajul celor mici</h3>
+          <p class="muted">
+            Programează o vizită, spune-ne ce ar liniști copilul tău și vom
+            pregăti spațiul ca să îi fie bine. Clinica LittleCare continuă să
+            crească din încrederea construită împreună.
+          </p>
+          <ul class="list" aria-label="Date de contact">
+            <li><span>•</span><span>Site: <a href="https://littlecare.ro" target="_blank" rel="noopener noreferrer">littlecare.ro</a></span></li>
+            <li><span>•</span><span>Slogan: „Curaj mare pentru oameni mici”</span></li>
+            <li><span>•</span><span>Loc: București, într-o casă cu grădină transformată în living prietenos.</span></li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      LittleCare — clinica unde vocea copilului este planul nostru de tratament.
+    </footer>
   </body>
 </html>
